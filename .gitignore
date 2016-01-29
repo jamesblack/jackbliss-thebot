@@ -1,0 +1,5 @@
+forego.exe
+node_modules
+.env
+typings
+tsd.json
