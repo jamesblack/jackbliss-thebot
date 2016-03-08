@@ -15,7 +15,7 @@ module.exports = {
       let cards = response.data
 
       response.data.forEach((item) => {
-        event.message.channel.sendMessage(options.gold ? item.imgGold : item.img)
+        event.client.reply(event, options.gold ? item.imgGold : item.img)
       })
     }).catch((error) => {
       if (error.status === 404) return event.message.channel.sendMessage('I could not find any cards with that name')

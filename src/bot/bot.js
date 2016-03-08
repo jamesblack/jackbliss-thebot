@@ -1,32 +1,38 @@
-import Discordie from 'discordie'
+import Discord from 'discord.js'
 import {handleCommand, loadCommands} from './commands/_dispatcher'
 
-const Events = Discordie.Events
-const client = new Discordie()
+const client = new Discord.Client()
 
-client.connect({
-  email: process.env.LOGIN_EMAIL,
-  password: process.env.LOGIN_PASSWORD,
+client.login(process.env.LOGIN_EMAIL, process.env.LOGIN_PASSWORD)
+  .then((result) => {
+    console.log('Logged in:', result)
+  })
+  .catch((error) => {
+    console.error('Unable to Login:', error)
+  })
+
+client.on('disconnected', (e) => {
+  console.error('Disconnected:', e)
 })
 
-client.Dispatcher.on(Events.DISCONNECTED, (e) => {
+client.on('error', (e) => {
   console.error('Error attempting to connect:', e)
 })
 
-client.Dispatcher.on(Events.GATEWAY_READY, (e) => {
-  console.info('Connected as:', client.User.username)
+client.on('ready', () => {
+  console.info('Connected as:', client.user.username)
 })
 
 loadCommands().then((loaded) => {
   console.info(`Loaded ${loaded} commands`)
 
-  client.Dispatcher.on(Events.MESSAGE_CREATE, (e) => {
-    let message = e.message.content.trim().toLowerCase()
+  client.on('message', (event) => {
+    let message = event.content.trim().toLowerCase()
     if (message[0] !== '!') return
 
     let plainMessage = message.substring(1)
 
-    handleCommand(e, ...plainMessage.split(' '))
+    handleCommand(event, ...plainMessage.split(' '))
   })
 })
 
