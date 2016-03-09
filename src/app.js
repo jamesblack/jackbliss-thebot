@@ -1,4 +1,9 @@
-import { handleHook } from './bot/bot'
+import startBot, { handleHook } from './bot/bot'
 import { startServer } from './server/server'
+import mongooseConnect from './lib/mongoose'
 
-startServer(handleHook)
+
+mongooseConnect().then(() => {
+  startServer(handleHook)
+  startBot()
+})

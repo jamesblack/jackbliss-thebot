@@ -4,14 +4,19 @@ import { startPlayedGatherer } from './internals/play-time-gatherer'
 
 const client = new Discord.Client()
 
-client.login(process.env.LOGIN_EMAIL, process.env.LOGIN_PASSWORD)
-  .then((result) => {
-    console.log('Logged in:', result)
-  })
-  .catch((error) => {
-    console.error('Unable to Login:', error)
-  })
-
+export default function startBot() {
+  client.login(process.env.LOGIN_EMAIL, process.env.LOGIN_PASSWORD)
+    .then((result) => {
+      console.log('Logged in:', result)
+      startPlayedGatherer(client)
+        .catch((error) => {
+          console.log(error)
+        })
+    })
+    .catch((error) => {
+      console.error('Unable to Login:', error)
+    })
+}
 client.on('disconnected', (e) => {
   console.error('Disconnected:', e)
 })
@@ -36,8 +41,6 @@ loadCommands().then((loaded) => {
     handleCommand(event, ...plainMessage.split(' '))
   })
 })
-
-startPlayedGatherer(client)
 
 export function handleHook() {
   console.log('Someone called handleHook which is not implemented yet')
