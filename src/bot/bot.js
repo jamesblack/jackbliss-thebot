@@ -1,5 +1,6 @@
 import Discord from 'discord.js'
 import {handleCommand, loadCommands} from './commands/_dispatcher'
+import { startPlayedGatherer } from './internals/play-time-gatherer'
 
 const client = new Discord.Client()
 
@@ -35,6 +36,8 @@ loadCommands().then((loaded) => {
     handleCommand(event, ...plainMessage.split(' '))
   })
 })
+
+startPlayedGatherer(client)
 
 export function handleHook() {
   console.log('Someone called handleHook which is not implemented yet')
