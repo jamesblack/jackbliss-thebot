@@ -8,10 +8,10 @@ export default function startBot() {
   client.login(process.env.LOGIN_EMAIL, process.env.LOGIN_PASSWORD)
     .then((result) => {
       console.log('Logged in:', result)
-      startPlayedGatherer(client)
-        .catch((error) => {
-          console.log(error)
-        })
+      // startPlayedGatherer(client)
+      //   .catch((error) => {
+      //     console.log(error)
+      //   })
     })
     .catch((error) => {
       console.error('Unable to Login:', error)
