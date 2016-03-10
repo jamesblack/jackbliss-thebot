@@ -15,7 +15,7 @@ export async function startPlayedGatherer(client) {
           try {
             let server = find(servers, ['id', discordServer.id])
             if (!server) server = new Server({_id: discordServer.id})
-            console.log('Found Server')
+            
             discordServer.members.forEach((member) => {
               try {
                 if (member.game === null) return
