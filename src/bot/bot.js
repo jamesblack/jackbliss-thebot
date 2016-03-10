@@ -25,6 +25,10 @@ client.on('error', (e) => {
   console.error('Error attempting to connect:', e)
 })
 
+client.on('debug', (message) => {
+  console.info('DEBUG:', message)
+})
+
 client.on('ready', () => {
   console.info('Connected as:', client.user.username)
 })
